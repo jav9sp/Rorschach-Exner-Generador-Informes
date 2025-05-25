@@ -1,0 +1,3 @@
+
+- Falta retornar el S-%, se calcula sobre el total de FQ-
+- Retornar la rigidez porque se necesita en la autopercepción
