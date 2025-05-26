@@ -33,6 +33,10 @@ def evaluar_factores(variables, estados_simple):
         resultados.append(
             f"Se observa que {persona} tienen altas probabilidades de desarrollar futuros desajustes psíquicos importantes importantes debido a la marcada inconsistencia interna, su estilo de pensamiento demasiado simple y la dificultad para controlar los afectos.")
 
+    if eb == "Indefinido":
+        resultados.append(
+            f"No existe información suficiente para estimar la presencia de factores de riesgo que alerten sobre posibles desajustes psíquicos importantes que {persona} pueda desarrollar en el corto mediano plazo.")
+
     # Variables desfavorables adicionales
     adicionales = []
     intro_adicionales = f"Por otro lado, se observa que {persona}"

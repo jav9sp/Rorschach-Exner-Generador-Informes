@@ -12,19 +12,22 @@ def interpretar_control_estres(variables, estados_simples):
     cdi = variables.get("CDI", 0)
     edad = variables.get("Edad", None)
 
+    # ? Añadir condicional de edad > 15
+
     adj_d_txt = ""
     if adj_d == 0:
         adj_d_txt = f"{persona.capitalize()} cuenta con una adecuada capacidad para controlar y dirigir sus conductas ante las tensiones de la vida cotidiana, por lo que sus controles solo fallarían ante situaciones de estrés intenso, prolongado o inesperado."
     if adj_d > 0:
-        pass
+        adj_d_txt = f"{persona.capitalize()} cuenta con una capacidad para controlar y dirigir sus conductas ante las tensiones de la vida cotidiana que es mayor a lo esperado, indicando que cuenta con muchos más recursos para manejar los estados de tensión interna y las demandas del entorno."
     if adj_d < 0:
-        pass
+        adj_d_txt = f"Se observa que {persona} no cuenta con una adecuada capacidad para controlar y dirigir sus conductas ante las tensiones de la vida cotidiana, por lo que se encuentra actualmente en un estado de sobrecarga, procesando mayor tensión interna de la que es capaz de manejar."
+
+    interpretaciones.append(adj_d_txt)
 
     cdi_txt = ""
     if cdi > 3:
         cdi_txt = "Dado que cuenta con un índice de inhabilidad social positivo, su capacidad de control se ve muy disminuida en la mayoría de las situaciones socioafectivas, dando paso a conductas similares a las que tendría en situaciones de sobrecarga, por lo que corre un mayor riesgo de desorganización ante situaciones externas complejas."
 
-    interpretaciones.append(adj_d_txt)
     interpretaciones.append(cdi_txt)
 
     # Paso 2: EA
@@ -59,6 +62,7 @@ def interpretar_control_estres(variables, estados_simples):
     # Paso 3: EB y Lambda
     lambda_ = estados_simples.get("Lambda", None)
     tipo_vivencial = variables.get("Tipo Vivencial", "Indefinido")
+
     if lambda_ == "muy alto":
         pass
     if lambda_ == "alto":
@@ -70,14 +74,15 @@ def interpretar_control_estres(variables, estados_simples):
     if lambda_ == "muy bajo":
         pass
 
+    tipo_eb_txt = ""
     if tipo_vivencial == "Extroversivo":
-        pass
+        tipo_eb_txt = f"Dado que {persona} tiene un tipo vivencial {tipo_vivencial}, [COMPLETAR]"
     if tipo_vivencial == "Introversivo":
-        pass
+        tipo_eb_txt = f"Dado que {persona} tiene un tipo vivencial {tipo_vivencial}, responde principalmente de manera ideacional, demorando la toma de decisiones y manteniendo las emociones al margen mientras soluciona problemas. "
     if tipo_vivencial == "Ambigual":
-        pass
-    if tipo_vivencial == "Indefinido":
-        pass
+        tipo_eb_txt = f"Dado que {persona} tiene un tipo vivencial {tipo_vivencial}, [COMPLETAR]"
+
+    interpretaciones.append(tipo_eb_txt)
 
     # Paso 4: es y Adjes
     valor_es = variables.get("es", None)

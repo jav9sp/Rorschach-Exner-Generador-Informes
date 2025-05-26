@@ -19,13 +19,14 @@ from interpretaciones.area_control_estres import interpretar_control_estres
 from interpretaciones.area_situacional import interpretar_estres_situacional
 
 # Cargar archivo Excel
-df = pd.read_excel("073_cristopher_uribe.xlsx")
+df = pd.read_excel("074_guillermo_caba.xlsx")
 
-# ! Indicar la edad de la persona
-edad = 19
+# ! Indicar la edad y género del evaluado
+edad = 49
+genero = "M"  # F para Femenino, M para Masculino
 
 # Generar variables del protocolo
-variables = generar_variables(df, edad, "F")
+variables = generar_variables(df, edad, genero)
 
 # Obtener y aplicar normativa según tipo vivencial
 estilo = variables.get("Tipo Vivencial", "Indefinido")
@@ -53,7 +54,7 @@ control_estres = interpretar_control_estres(variables, estados_simples)
 estres_situacional = interpretar_estres_situacional(variables, estados_simples)
 
 # Generar informe Word
-generar_informe("073_cristopher_uribe.docx", {
+generar_informe("074_guillermo_caba.docx", {
     "0. Secuencia de Interpretación": estrategia_interpretacion,
     "1. Aspectos Preliminares": preliminares,
     "2. Procesamiento de la Información": procesamiento,

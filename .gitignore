@@ -1,6 +1,8 @@
 # .gitignore
+.vscode/
 venv/
 __pycache__/
+src/resultados/
 *.pyc
 *.pyo
 *.pyd

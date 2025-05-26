@@ -7,6 +7,8 @@ def interpretar_mediacion(variables, estados_simples):
 
     persona = "el evaluado" if variables["Genero"] == "M" else "la evaluada"
 
+    # PREVIOS: R, OBS y L
+
     # Paso 1: XA% y WDA%
     xa_bruto = variables.get("XA%", None)
     wda_bruto = variables.get("WDA%", None)
@@ -20,30 +22,26 @@ def interpretar_mediacion(variables, estados_simples):
         if xa_estado == "alto" and wda_estado == "alto":
             ajuste_general_txt = f"Se observa que {persona} es capaz de ejercer control cognitivo sobre sus percepciones e interpretar la realidad como lo hace la mayoría según lo esperado, mostrando un nivel de convencionalidad mayor al esperado."
         if xa_estado == "normal" and wda_estado == "normal":
-            ajuste_general_txt = f"Se observa que {persona} es capaz de ejercer control cognitivo sobre sus percepciones e interpretar la realidad como lo hace la mayoría según lo esperado"
+            ajuste_general_txt = f"Se observa que {persona} es capaz de ejercer control cognitivo sobre sus percepciones e interpretar la realidad según los niveles de convencionalidad esperados."
         if xa_estado == "bajo" and wda_estado == "bajo":
             ajuste_general_txt = f"[PENDIENTE]{persona}"
         if xa_estado == "muy bajo" and wda_estado == "muy bajo":
             ajuste_general_txt = f"[PENDIENTE]{persona}"
 
+    interpretaciones.append(ajuste_general_txt)
+
     # Paso 2: FQsin
     fqs = variables.get("FQxsin", None)
-    fqs_txt = ""
+    fq_sin_txt = ""
     if fqs:
-        fqs_txt = "[PENDIENTE]"
+        fq_sin_txt = "[PENDIENTE]"
 
-    # Paso 3: X%, FQ- y S-
-    x_porc = estados_simples.get("X%", None)
-    fq_menos = estados_simples.get("FQ-", None)
-    s_menos = estados_simples.get("S-", None)
+    interpretaciones.append(fq_sin_txt)
 
-    # Aquí podrías hacer combinaciones lógicas, o interpretar por separado
-    if fq_menos == "alto" or s_menos == "alto":
-        interpretaciones.append(
-            "• Se observa una alta frecuencia de FQ- o S-, lo que indica distorsión en la evaluación de la realidad.")
-    elif fq_menos == "normal" and s_menos == "normal":
-        interpretaciones.append(
-            "• La frecuencia de FQ- y S- se encuentra en niveles normales, lo que sugiere estabilidad perceptiva.")
+    # Paso 3: X-%, FQ- y S-
+    x__menos_porc = estados_simples.get("X-%", None)
+    fq_menos = estados_simples.get("FQx-", None)
+    s_menos = estados_simples.get("S-%", None)
 
     # Paso 4: Respuestas populares
     populares = estados_simples.get("Populares", None)
@@ -55,23 +53,17 @@ def interpretar_mediacion(variables, estados_simples):
     if populares == "normal":
         populares_txt = f"Por otro lado, se observa que su capacidad para responder convencionalmente según lo socialmente esperado es adecuada, por lo que {persona} será capaz de comportarse de manera adaptativa en situaciones socialmente obvias."
     if populares == "bajo":
-        populares_txt = "[PENDIENTE]"
+        populares_txt = f"Por otro lado, se observa que tiene una menor capacidad para ajustar su conducta según lo socialmente esperado, por lo que {persona} podría enfrentar dificultades de adaptación incluso en situaciones sociales obvias.."
     if populares == "muy bajo":
         populares_txt = "[PENDIENTE]"
 
+    interpretaciones.append(populares_txt)
+
     # Paso 5: Frecuencia de FQ+
-    fq_plus = estados_simples.get("FQ+", None)
-    fq_plus_txt = ""
-    if fq_plus == "muy alto":
-        fq_plus_txt = "[PENDIENTE]"
-    if fq_plus == "alto":
-        fq_plus_txt = "[PENDIENTE]"
-    if fq_plus == "normal":
-        fq_plus_txt = "[PENDIENTE]"
-    if fq_plus == "bajo":
-        fq_plus_txt = "[PENDIENTE]"
-    if fq_plus == "muy bajo":
-        fq_plus_txt = "[PENDIENTE]"
+    fq_plus = variables.get("FQx+", None)
+    if fq_plus > 4:
+        interpretaciones.append(
+            f"Si bien {persona} muestra una buena capacidad perceptiva y alta motivación, muestra una tendencia marcada a la búsqueda de exactitud, indicando rasgos perfeccionistas u obsesivos.")
 
     # Paso 6: X+% y Xu%
     x_plus = estados_simples.get("X+%", None)
@@ -87,29 +79,21 @@ def interpretar_mediacion(variables, estados_simples):
     if x_plus == "muy bajo":
         x_plus_txt = "[PENDIENTE]"
 
-    xu = estados_simples.get("Xu%", None)
+    interpretaciones.append(x_plus_txt)
+
+    xu_porc = estados_simples.get("Xu%", None)
     xu_txt = ""
-    if xu == "muy alto":
+    if xu_porc == "muy alto":
         xu_txt = f"Además, se observa que {persona} tiene una marcada tendencia a añadir sesgos a sus percepciones en función de sus necesidades y a manifestar un alto autocentramiento que le dificulta ver las cosas como lo hacen los demás. Esto implica que puede llegar a presentar dificultades de comunicación y conflictos con su entorno si se le somete a altas expectativas sociales."
-    if xu == "alto":
+    if xu_porc == "alto":
+        xu_txt = f"Por otro lado, se observa que {persona} tiene una tendencia a sesgar sus percepciones en función de sus propias necesidades, lo cual le permite expresar su individualidad y creatividad, pero puede llegar a generar conflictos de comunicación si las demandas de convencionalidad del entorno son muy altas."
+    if xu_porc == "normal":
         xu_txt = "[PENDIENTE]"
-    if xu == "normal":
+    if xu_porc == "bajo":
         xu_txt = "[PENDIENTE]"
-    if xu == "bajo":
-        xu_txt = "[PENDIENTE]"
-    if xu == "muy bajo":
+    if xu_porc == "muy bajo":
         xu_txt = "[PENDIENTE]"
 
-    primer_parrafo = f"{ajuste_general_txt}"
-    segundo_parrafo = f"{fqs_txt}"
-    tercer_parrafo = f"{fq_plus_txt}"
-    cuarto_parrafo = f"{populares_txt}"
-    quinto_parrafo = f"{x_plus_txt} {xu_txt}"
-
-    interpretaciones.append(primer_parrafo)
-    interpretaciones.append(segundo_parrafo)
-    interpretaciones.append(tercer_parrafo)
-    interpretaciones.append(cuarto_parrafo)
-    interpretaciones.append(quinto_parrafo)
+    interpretaciones.append(xu_txt)
 
     return interpretaciones

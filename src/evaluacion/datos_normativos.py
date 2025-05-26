@@ -1,15 +1,24 @@
 import pandas as pd
+import os
 import json
+
+# Normalización de directorios
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+def ruta_relativa(*partes):
+    return os.path.join(BASE_DIR, "..", *partes)
+
 
 # Rutas a los archivos normativos JSON
 RUTAS_ESTILOS = {
-    "Extroversivo": "data/muestraExtroRo.json",
-    "Introversivo": "data/muestraIntroRo.json",
-    "Ambigual": "data/muestraAmbigualRo.json",
-    "Indefinido": "data/muestraTotalRo.json",
-    "Total": "data/muestraTotalRo.json",
-    "15 Años": "data/muestra15Anios.json",
-    "14 Años": "data/muestra14Anios.json"
+    "Extroversivo": ruta_relativa("data", "muestraExtroRo.json"),
+    "Introversivo": ruta_relativa("data", "muestraIntroRo.json"),
+    "Ambigual": ruta_relativa("data", "muestraAmbigualRo.json"),
+    "Indefinido": ruta_relativa("data", "muestraTotalRo.json"),
+    "Total": ruta_relativa("data", "muestraTotalRo.json"),
+    "15 Años": ruta_relativa("data", "muestra15Anios.json"),
+    "14 Años": ruta_relativa("data", "muestra14Anios.json")
 }
 
 
@@ -36,7 +45,7 @@ def obtener_tabla_por_estilo(estilo, edad):
         print("Cargada tabla de 15 años")
         return pd.DataFrame(datos)
 
-    if edad == 15:
+    if edad == 14:
         ruta = RUTAS_ESTILOS["14 Años"]
         with open(ruta, encoding='utf-8') as f:
             datos = json.load(f)

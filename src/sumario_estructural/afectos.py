@@ -1,5 +1,5 @@
 
-def calcular_afectos(df, dic_variables) -> dict:
+def calcular_afectos(df, dic_variables):
     r_total = len(df)
 
     # FC : CF+C+Cn

@@ -53,6 +53,19 @@ def interpretar_afectos(variables, estados_simples):
     sum_y = estados_simples.get("SumY", "Indefinido")
     sum_c_prima = estados_simples.get("SumC'", "Indefinido")
 
+    sum_sh_txt = ""
+
+    if sum_v in ["alto", "muy alto"]:
+        pass
+    if sum_t in ["alto", "muy alto"]:
+        pass
+    if sum_y in ["alto", "muy alto"]:
+        pass
+    if sum_c_prima in ["alto", "muy alto"]:
+        pass
+
+    interpretaciones.append(sum_sh_txt)
+
     # Paso 4: SumC': SumPonC
     tot_c_prima = variables.get("SumC'", 0)
     sum_pon_c = variables.get("SumPonC", 0)
@@ -74,16 +87,26 @@ def interpretar_afectos(variables, estados_simples):
     if afr == "bajo":
         pass
     if afr == "muy bajo":
-        pass
+        afr_txt = f"Su nivel de interés por procesar estímulos afectivos se encuentra muy por debajo de lo esperado, alcanzando una tendencia a rehuir de la estimulación emocional, lo que indica que {persona} siente incomodidad ante los afectos y tiende a retraerse socialmente."
 
     parrafo = f"{extern_txt} {afr_txt}"
 
     interpretaciones.append(parrafo)
 
     # Paso 6: índice de intelectualización
+    intelec = variables.get("Intelec")
+
+    if intelec > 3:
+        pass
+
     # Paso 7: Proyección de color (CP)
+    cp = variables.get("CP", 0)
+
+    if cp > 0:
+        pass
+
     # Paso 8: FC:CF+C y C Pura
-    # Paso 9: Espacio blanco (5)
+    # Paso 9: Espacio blanco (S)
     # Paso 10: Respuestas complejas (relación con Z y EB), composición y cualidad, complejas por m o Y, Complj.Col-SH y Complj.SH.
 
     return interpretaciones

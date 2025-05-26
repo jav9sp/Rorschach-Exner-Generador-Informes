@@ -3,7 +3,7 @@
 def calcular_mediacion(df):
     total_r = len(df)
     if total_r == 0:
-        return {k: 0 for k in ["XA%", "WDA%", "X-%", "S-", "Populares", "X+%", "XU%"]}
+        return {k: 0 for k in ["XA%", "WDA%", "X-%", "S-", "Populares", "X+%", "Xu%"]}
 
     # Normalizar columnas para evitar errores
     df = df.copy()
@@ -37,11 +37,12 @@ def calcular_mediacion(df):
     p = (df["Populares"].astype(str).str.lower() == "p").sum() or 0
 
     return {
-        "XA%": xa_pct,
-        "WDA%": wda_pct,
-        "X+%": x_pos_pct,
-        "Xu%": xu_pct,
-        "X-%": x_neg_pct,
+        "XA%": float(xa_pct),
+        "WDA%": float(wda_pct),
+        "X+%": float(x_pos_pct),
+        "Xu%": float(xu_pct),
+        "X-%": float(x_neg_pct),
         "S-": s_neg,
+        "S-%": "[PENDIENTE]",
         "Populares": p,
     }

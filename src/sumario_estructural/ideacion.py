@@ -1,7 +1,5 @@
-import pandas as pd
 
-
-def calcular_codigos_especiales(conteo_cc):
+def calcular_codigos_especiales(variables):
     """
     Calcula SumBrut6 (Raw Sum6) y WSum6 (SumPon6) a partir de las frecuencias de CC.EE.
     """
@@ -9,25 +7,25 @@ def calcular_codigos_especiales(conteo_cc):
                        "DR1", "DR2", "FAB1", "FAB2", "ALOG", "CONTAM"]
 
     # SumBrut6: suma no ponderada de las 10 claves críticas
-    sumbrut6 = sum(conteo_cc.get(k, 0) for k in claves_criticas)
+    sumbrut6 = sum(variables.get(k, 0) for k in claves_criticas)
 
-    sum6ce = sum(conteo_cc.get(k, 0)
+    sum6ce = sum(variables.get(k, 0)
                  for k in claves_criticas if k.endswith("1"))
-    sum6ce2 = sum(conteo_cc.get(k, 0)
+    sum6ce2 = sum(variables.get(k, 0)
                   for k in claves_criticas if k.endswith('2'))
 
     # Valores claves críticas
-    dv1 = conteo_cc.get("DV1", 0)
-    dv2 = conteo_cc.get("DV2", 0)
-    inc1 = conteo_cc.get("INC1", 0)
-    inc2 = conteo_cc.get("INC2", 0)
-    dr1 = conteo_cc.get("DR1", 0)
-    dr2 = conteo_cc.get("DR2", 0)
-    fab1 = conteo_cc.get("FAB1", 0)
-    fab2 = conteo_cc.get("FAB2", 0)
-    alog = conteo_cc.get("ALOG", 0)
-    contam = conteo_cc.get("CONTAM", 0)
-    ab = conteo_cc.get("AB", 0)
+    dv1 = variables.get("DV1", 0)
+    dv2 = variables.get("DV2", 0)
+    inc1 = variables.get("INC1", 0)
+    inc2 = variables.get("INC2", 0)
+    dr1 = variables.get("DR1", 0)
+    dr2 = variables.get("DR2", 0)
+    fab1 = variables.get("FAB1", 0)
+    fab2 = variables.get("FAB2", 0)
+    alog = variables.get("ALOG", 0)
+    contam = variables.get("CONTAM", 0)
+    ab = variables.get("AB", 0)
 
     # WSum6: suma ponderada de los 10 códigos especiales críticos
     wsum6 = (1 * dv1 + 2 * dv2 + 2 * inc1 +

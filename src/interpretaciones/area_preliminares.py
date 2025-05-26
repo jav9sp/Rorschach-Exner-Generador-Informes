@@ -1,20 +1,23 @@
 from evaluacion.factores_riesgo import evaluar_factores
 
 
-def interpretar_preliminares(variables, comparativa):
-    persona = "del evaluado" if variables.get(
-        "Genero") == "M" else "de la evaluada"
+def interpretar_preliminares(variables, estados_simples):
+    persona = "el evaluado" if variables.get(
+        "Genero") == "M" else "la evaluada"
 
     interpretaciones = []
 
-    inicio = f"En el presente documento se describen los principales hallazgos sobre el funcionamiento cognitivo y psíquico {persona} tras la aplicación del test de Rorschach."
-    validez = verificar_validez(persona, variables)
-    s_con = variables.get("SCON TXT")
+    intro = f"En el presente documento se describen los principales hallazgos sobre el funcionamiento cognitivo y psíquico {persona} tras la aplicación del test de Rorschach."
 
-    interpretaciones.append(f"{inicio} {validez}")
-    interpretaciones.extend(verificar_productividad(persona, comparativa))
+    validez = verificar_validez(persona, variables)
+    interpretaciones.append(f"{intro} {validez}")
+
+    interpretaciones.extend(verificar_productividad(persona, estados_simples))
+
+    s_con = variables.get("SCON TXT")
     interpretaciones.append(s_con)
-    interpretaciones.append(evaluar_factores(variables, comparativa))
+
+    interpretaciones.append(evaluar_factores(variables, estados_simples))
 
     interpretaciones.append(
         f"A continuación, se describen las principales conclusiones sobre el funcionamiento {persona} en cada una de sus áreas.")
@@ -56,80 +59,80 @@ def verificar_productividad(persona, df_comparativa):
         },
         "DQ+": {
             "muy bajo": "su dificultad para realizar trabajo de análisis y síntesis ",
-            "bajo": "...",
+            "bajo": "baja capacidad de análisis y síntesis",
             "normal": "capacidad para realizar trabajo de análisis y síntesis según lo esperado ",
-            "alto": "...",
-            "muy alto": "..."
+            "alto": "[PENDIENTE]",
+            "muy alto": "[PENDIENTE]"
         },
         "XA%": {
             "muy bajo": "su marcada tendencia a realizar interpretaciones poco convencionales de la realidad ",
-            "bajo": "...",
-            "normal": "...",
-            "alto": "...",
-            "muy alto": "..."
+            "bajo": "[PENDIENTE]",
+            "normal": "adecuado ajuste perceptivo",
+            "alto": "[PENDIENTE]",
+            "muy alto": "[PENDIENTE]"
         },
         "Compljs": {
             "muy bajo": "su marcada simplicidad cognitiva que le impide trabajar con múltiples estímulos a la vez ",
-            "bajo": "...",
-            "normal": "...",
-            "alto": "...",
-            "muy alto": "..."
+            "bajo": "baja capacidad para procesar múltiples estímulos a la vez",
+            "normal": "[PENDIENTE]",
+            "alto": "[PENDIENTE]",
+            "muy alto": "[PENDIENTE]"
         },
         "Zf": {
-            "muy bajo": "su falta de iniciativa en la tarea de relacionar los estímulos del entorno y darle sentido ",
-            "bajo": "...",
-            "normal": "...",
-            "alto": "...",
-            "muy alto": "..."
+            "muy bajo": "una baja motivación en la tarea de relacionar los estímulos del entorno de manera significativa y darle sentido",
+            "bajo": "[PENDIENTE]",
+            "normal": "[PENDIENTE]",
+            "alto": "[PENDIENTE]",
+            "muy alto": "[PENDIENTE]"
         },
         "SumV": {
-            "muy bajo": "...",
-            "bajo": "...",
-            "normal": "...",
-            "alto": "...",
-            "muy alto": "..."
+            "muy bajo": "[PENDIENTE]",
+            "bajo": "[PENDIENTE]",
+            "normal": "[PENDIENTE]",
+            "alto": "[PENDIENTE]",
+            "muy alto": "[PENDIENTE]"
         },
         "Zsum": {
-            "muy bajo": "...",
-            "bajo": "...",
-            "normal": "...",
-            "alto": "...",
-            "muy alto": "..."
+            "muy bajo": "[PENDIENTE]",
+            "bajo": "[PENDIENTE]",
+            "normal": "[PENDIENTE]",
+            "alto": "[PENDIENTE]",
+            "muy alto": "[PENDIENTE]"
         },
         "W": {
-            "muy bajo": "...",
-            "bajo": "...",
-            "normal": "...",
-            "alto": "...",
-            "muy alto": "..."
+            "muy bajo": "[PENDIENTE]",
+            "bajo": "[PENDIENTE]",
+            "normal": "[PENDIENTE]",
+            "alto": "[PENDIENTE]",
+            "muy alto": "[PENDIENTE]"
         },
         "FD": {
-            "muy bajo": "...",
-            "bajo": "...",
-            "normal": "...",
-            "alto": "...",
-            "muy alto": "..."
+            "muy bajo": "[PENDIENTE]",
+            "bajo": "[PENDIENTE]",
+            "normal": "[PENDIENTE]",
+            "alto": "[PENDIENTE]",
+            "muy alto": "[PENDIENTE]"
         },
         "DQv": {
-            "muy bajo": "...",
-            "bajo": "...",
-            "normal": "...",
-            "alto": "...",
-            "muy alto": "..."
+            "muy bajo": "[PENDIENTE]",
+            "bajo": "[PENDIENTE]",
+            "normal": "[PENDIENTE]",
+            "alto": "[PENDIENTE]",
+            "muy alto": "[PENDIENTE]"
         },
         "Intereses": {
-            "muy bajo": "...",
-            "bajo": "...",
-            "normal": "...",
-            "alto": "...",
-            "muy alto": "..."
+            "muy bajo": "[PENDIENTE]",
+            "bajo": "[PENDIENTE]",
+            "normal": "[PENDIENTE]",
+            "alto": "[PENDIENTE]",
+            "muy alto": "[PENDIENTE]"
         },
         "Lenguaje": {
-            "muy bajo": "...",
-            "bajo": "...",
-            "normal": "...",
-            "alto": "...",
-            "muy alto": "..."
+            "muy bajo": "[PENDIENTE]",
+            "bajo": "[PENDIENTE]",
+            "normal": "[PENDIENTE]",
+            "alto": "[PENDIENTE]",
+            "muy alto": "[PENDIENTE]"
         }
     }
 

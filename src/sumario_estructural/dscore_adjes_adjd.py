@@ -1,8 +1,13 @@
 import json
 import os
 
+# Normalización de directorios
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+json_path = os.path.join(BASE_DIR, "..", "data", "dscore_conversion.json")
+json_path = os.path.normpath(json_path)
+
 # Cargar tabla de conversión desde JSON externo
-with open(os.path.join("data", "dscore_conversion.json"), "r", encoding="utf-8") as f:
+with open(json_path, "r", encoding="utf-8") as f:
     D_SCORE_CONVERSION = json.load(f)
 
 

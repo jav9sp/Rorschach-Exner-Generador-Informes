@@ -8,14 +8,8 @@ def interpretar_ideacion(variables, estados_simples):
     persona = "el evaluado" if variables["Genero"] == "M" else "la evaluada"
 
     # Paso 1: EB Introversivo, Lambda, EBPer
-    eb = variables.get("Tipo Vivencial", "Indefinido")
-    eb_txt = ""
-    if eb == "Introversivo":
-        eb_txt = ""
-
     lambda_ = estados_simples.get("Lambda", "Indefinido")
     lambda_txt = ""
-
     if lambda_ == "muy alto":
         lambda_txt = "• El control cognitivo elevado (Lambda) permite regular los procesos ideativos de forma estructurada."
     if lambda_ == "alto":
@@ -26,6 +20,10 @@ def interpretar_ideacion(variables, estados_simples):
         lambda_txt = "• El control cognitivo elevado (Lambda) permite regular los procesos ideativos de forma estructurada."
     if lambda_ == "muy bajo":
         lambda_txt = "• El control cognitivo elevado (Lambda) permite regular los procesos ideativos de forma estructurada."
+
+    eb = variables.get("Tipo Vivencial", "Indefinido")
+    if eb == "Introversivo":
+        interpretaciones.append(f"{persona}")
 
     ebper = variables.get("EBPer", "-")
     ebper_txt = ""
@@ -46,21 +44,25 @@ def interpretar_ideacion(variables, estados_simples):
     if p_total > a_total + 1:
         ap_txt = f"{persona.capitalize()} muestra una actitud pasiva en sus procesos de ideación, por lo que tiende a asumir un rol pasivo en sus relaciones interpersonales y a no responsabilizarse por sus propias decisiones. Por este mismo motivo, suele refugiarse en la fantasía para satisfacer sus frustraciones de la vida real."
     else:
-        ap_txt = f"{persona.capitalize()}"
+        ap_txt = f"{persona.capitalize()} muestra una tendencia a usar sus recursos ideativos de manera activa, lo que le permite tomar la iniciativa en la interacción con otros y asumir la responsabilidad de satisfacer sus necesidades mediante interacciones prácticas con su entorno."
+
+    interpretaciones.append(ap_txt)
 
     flexibilidad = ""
     if ((a_total >= 4 and p_total == 0) or (a_total == 0 and p_total >= 4)) or (a_total >= 3 * p_total or p_total >= 3 * a_total):
-        flexibilidad = ""
+        flexibilidad = f"Se observan rasgos de rigidez en su actividad ideativa, lo cual constituye un factor desfavorable de cara al tratamiento, dado que {persona} tenderá a aferrarse a su propio punto de vista, dificultando la introducción de procesos de cambio en su pensamiento y conducta."
     else:
         flexibilidad = "Pese a lo anterior, se observa que cuenta con una adecuada flexibilidad ideativa, por lo que es capaz de desarrollar nuevos patrones de pensamiento y conducta según lo esperado."
+
+    interpretaciones.append(flexibilidad)
 
     if ma_total > mp_total + 1:
         ma_vs_mp_txt = "Escapa a la fantasía como mecanismo defensivo ante cualquier situación displacentera."
 
     # Paso 3: HVI, OBS, MOR – Distorsiones que afectan la ideación
-    if variables.get("HVI") == "positivo":
+    if variables.get("HVI") == "Positivo":
         pass
-    if variables.get("OBS") == "positivo":
+    if variables.get("OBS") == "Positivo":
         pass
     if variables.get("MOR", 0) >= 2:
         pass
@@ -74,13 +76,14 @@ def interpretar_ideacion(variables, estados_simples):
         izq_eb_txt = ""
         pass
     if estados_simples.get("FM+m") in ["bajo", "muy bajo"]:
-        izq_eb_txt = f"Se observa un bajo nivel de activación de la ideación periférica producto de necesidades internas básicas y secundarias insatisfechas, lo que no significa que estas no existan, sino que {persona} está eliminando el registro de ellas."
+        izq_eb_txt = f"Muestra un bajo nivel de activación de la ideación periférica producto de necesidades internas básicas y secundarias insatisfechas, lo que no significa que estas no existan, sino que {persona} está eliminando el registro de ellas."
+
+    interpretaciones.append(izq_eb_txt)
 
     # Paso 5: Intelec
     intelec = variables.get("Intelec", None)
-    intelec_txt = ""
     if intelec > 5:
-        intelec_txt = ""
+        interpretaciones.append("[INCORPORAR INTERPRETACIÓN INTELEC]")
 
     # Paso 6: Sum6, SumPon6 y Cod Críticos
     sum6 = variables.get("SumBrut6", 0)
@@ -89,9 +92,12 @@ def interpretar_ideacion(variables, estados_simples):
         pass
     if sumpon6 > 2:
         pass
+    interpretaciones.append("[INCORPORAR INTERPRETACIÓN DE CCEE]")
 
     # Paso 7: MQ y distorsión de M
+    interpretaciones.append("[VERIFICAR DISTORSIONES DE M]")
 
     # Paso 8: Cualidad de M
+    interpretaciones.append("[VERIFICAR CUALIDAD DE M]")
 
     return interpretaciones

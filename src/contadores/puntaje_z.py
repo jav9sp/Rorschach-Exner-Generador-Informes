@@ -1,8 +1,13 @@
 import json
 import os
 
+# Normalización de directorios
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+json_path = os.path.join(BASE_DIR, "..", "data", "zscore_conversion.json")
+json_path = os.path.normpath(json_path)
+
 # Cargar tabla de conversión desde archivo JSON
-with open(os.path.join("data", "zscore_conversion.json"), encoding="utf-8") as f:
+with open(json_path, encoding="utf-8") as f:
     zest_data = json.load(f)
     zest_data = {
         int(k): float(v) if isinstance(v, (int, float)) else None
