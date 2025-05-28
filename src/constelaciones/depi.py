@@ -97,7 +97,7 @@ def evaluar_depi(variables):
         interpretaciones.append("una tendencia a asilarse socialmente")
 
     if condiciones < 5:
-        texto = f"La constelación de depresión marca negativo, lo que permite descartar la presencia de depresión actual. Pese a ello, muestra {numeros[condiciones]} indicadores, incluyendo {unir_interpretaciones(interpretaciones)}."
+        texto = f"La constelación de depresión marca negativo, lo que permite descartar la presencia de depresión actual. Pese a ello, {persona} muestra {numeros[condiciones]} indicadores, incluyendo {unir_interpretaciones(interpretaciones)}."
 
     if condiciones == 5:
         texto = f"Se observa que {persona} cuenta con cinco indicadores de la constelación de depresión que, si bien no afirma que cuente con un diagnóstico de depresión activa, indica que se encuentra vulnerable a caer en estados depresivos o sufrir alteraciones bruscas del estado de ánimo."

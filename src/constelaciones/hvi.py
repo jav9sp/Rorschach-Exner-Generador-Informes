@@ -1,13 +1,9 @@
-# TODO: Generar la interpretación
-
 def evaluar_hvi(variables):
     """
     Evalúa la constelación HVI (índice de hipervigilancia).
     Se marca POSITIVO si se cumple la condición 1 y al menos 4 del resto.
     """
 
-    persona = "el evaluado" if variables["Genero"] == "M" else "la evaluada"
-    texto = ""
     resultado = "Negativo"
 
     # Condición 1 obligatoria
@@ -34,9 +30,7 @@ def evaluar_hvi(variables):
 
     if condiciones >= 4:
         resultado = "Positivo"
-        texto = f"{persona}"
 
     return {
         "HVI": resultado,
-        "HVI TXT": texto
     }

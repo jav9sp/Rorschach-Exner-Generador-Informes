@@ -4,8 +4,10 @@ def contar_determinantes(columna_det, columna_fq):
     Cuenta determinantes y subíndices de movimiento en las respuestas codificadas.
     Además, si hay M en la respuesta, clasifica según calidad formal (MQ+ MQo MQ- MQsin).
     """
-    conteo_general = {"F": 0, "M": 0, "FM": 0, "m": 0, "C": 0, "CF": 0, "FC": 0, "C'": 0, "C'F": 0, "FC'": 0,
-                      "T": 0, "TF": 0, "FT": 0, "V": 0, "VF": 0, "FV": 0, "Y": 0, "YF": 0, "FY": 0, "FD": 0, "rF": 0, "Fr": 0}
+    conteo_general = {"F": 0, "M": 0, "FM": 0, "m": 0,
+                      "C": 0, "CF": 0, "FC": 0, "C'": 0, "C'F": 0, "FC'": 0,
+                      "T": 0, "TF": 0, "FT": 0, "V": 0, "VF": 0, "FV": 0,
+                      "Y": 0, "YF": 0, "FY": 0, "FD": 0, "rF": 0, "Fr": 0}
     conteo_subindices = {"a": 0, "p": 0}
     conteo_mq = {"MQ+": 0, "MQo": 0, "MQu": 0, "MQ-": 0, "MQsin": 0}
 

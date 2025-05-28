@@ -19,10 +19,10 @@ from interpretaciones.area_control_estres import interpretar_control_estres
 from interpretaciones.area_situacional import interpretar_estres_situacional
 
 # Cargar archivo Excel
-df = pd.read_excel("074_guillermo_caba.xlsx")
+df = pd.read_excel("protocolo_prueba.xlsx")
 
 # ! Indicar la edad y género del evaluado
-edad = 49
+edad = 38
 genero = "M"  # F para Femenino, M para Masculino
 
 # Generar variables del protocolo
@@ -54,7 +54,7 @@ control_estres = interpretar_control_estres(variables, estados_simples)
 estres_situacional = interpretar_estres_situacional(variables, estados_simples)
 
 # Generar informe Word
-generar_informe("074_guillermo_caba.docx", {
+generar_informe("informe_prueba.docx", {
     "0. Secuencia de Interpretación": estrategia_interpretacion,
     "1. Aspectos Preliminares": preliminares,
     "2. Procesamiento de la Información": procesamiento,

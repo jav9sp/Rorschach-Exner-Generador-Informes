@@ -1,99 +1,96 @@
 def interpretar_mediacion(variables, estados_simples):
     """
+    INCOMPLETO
     Interpreta la mediación cognitiva, es decir, el ajuste perceptivo de la persona evaluada.
     """
 
     interpretaciones = []
 
     persona = "el evaluado" if variables["Genero"] == "M" else "la evaluada"
+    articulo = "lo" if persona == "M" else "la"
 
     # PREVIOS: R, OBS y L
 
-    # Paso 1: XA% y WDA%
-    xa_bruto = variables.get("XA%", None)
-    wda_bruto = variables.get("WDA%", None)
-    xa_estado = estados_simples.get("XA%", None)
-    wda_estado = estados_simples.get("WDA%", None)
+    # Paso 1: XA%, WDA% y X+%
+    # ? Normales entre 0.78 y 0.9
+    xa_bruto = variables.get("XA%", 0)
+    wda_bruto = variables.get("WDA%", 0)
 
-    ajuste_general_txt = ""
-    if xa_bruto == 1 and wda_bruto == 1:
-        ajuste_general_txt = f"{persona.capitalize()} muestra una adecuada capacidad para ejercer control cognitivo sobre sus percepciones e interpretaciones de la realidad según lo esperado, pero se observa una marcada tendencia a ser muy convencional, por lo que actúa en base a las demandas de su entorno, evita cometer errores y elimina la expresión de su creatividad y originalidad."
+    if xa_bruto >= 0.96 and wda_bruto >= 0.96:
+        interpretaciones.append(f"{persona.capitalize()} muestra una adecuada capacidad para ejercer control cognitivo sobre su percepción e interpretación de la realidad según lo esperado, pero se observa una marcada tendencia a ser muy convencional, por lo que actúa en base a las demandas de su entorno, evita cometer errores y elimina la expresión de su creatividad y originalidad.")
+
+    elif 0.78 <= xa_bruto <= 0.9 and 0.78 <= wda_bruto <= 0.9:
+        interpretaciones.append(
+            f"{persona.capitalize()} muestra una adecuada capacidad para ejercer control cognitivo sobre su percepción e interpretación de la realidad según lo esperado, por lo que es capaz de percibir la realidad como lo hace la mayoría la mayor parte del tiempo.")
+
+    elif xa_bruto <= 0.78 and wda_bruto <= 0.78:
+        interpretaciones.append(
+            f"{persona.capitalize()} muestra dificultades para ejercer control cognitivo sobre su percepción e interpretación de la realidad, por lo que tiende a comportarse de manera poco convencional [EVALUAR DESVIACIÓN - CORTE EN 0.78] [aumentando el riesgo de conflictos de comunicación con su entono y su capacidad para generar conductas que respondan adecuadamente a las demandas de su entorno.]")
+
     else:
-        if xa_estado == "alto" and wda_estado == "alto":
-            ajuste_general_txt = f"Se observa que {persona} es capaz de ejercer control cognitivo sobre sus percepciones e interpretar la realidad como lo hace la mayoría según lo esperado, mostrando un nivel de convencionalidad mayor al esperado."
-        if xa_estado == "normal" and wda_estado == "normal":
-            ajuste_general_txt = f"Se observa que {persona} es capaz de ejercer control cognitivo sobre sus percepciones e interpretar la realidad según los niveles de convencionalidad esperados."
-        if xa_estado == "bajo" and wda_estado == "bajo":
-            ajuste_general_txt = f"[PENDIENTE]{persona}"
-        if xa_estado == "muy bajo" and wda_estado == "muy bajo":
-            ajuste_general_txt = f"[PENDIENTE]{persona}"
-
-    interpretaciones.append(ajuste_general_txt)
+        interpretaciones.append(
+            F"[PENDIENTE EVALUACIÓN XA% {xa_bruto} Y WDA% {wda_bruto}]")
 
     # Paso 2: FQsin
-    fqs = variables.get("FQxsin", None)
-    fq_sin_txt = ""
+    fqs = variables.get("FQxsin", 0)
     if fqs:
-        fq_sin_txt = "[PENDIENTE]"
-
-    interpretaciones.append(fq_sin_txt)
+        interpretaciones.append(
+            "[PENDIENTE FQsin PRESENTE, VERIFICAR CONTENIDO QUE ACOMPAÑA A FQsin]")
 
     # Paso 3: X-%, FQ- y S-
-    x__menos_porc = estados_simples.get("X-%", None)
-    fq_menos = estados_simples.get("FQx-", None)
-    s_menos = estados_simples.get("S-%", None)
+    # ? X-% > 0.2 es significativo
+    x_menos_porc = variables.get("X-%", 0)
+    nvl_dos = variables.get("Nvl-2", 0)
+    fq_menos = estados_simples.get("FQx-", 0)
+    s_menos_porc = estados_simples.get("S-%", 0)
+
+    if x_menos_porc > 0.2:
+        interpretaciones.append("[PENDIENTE X-% > 0.2]")
+
+    if x_menos_porc > 0.2 and nvl_dos > 0.4:
+        interpretaciones.append("[VERIFICAR INTERFERENCIAS Nvl-2]")
+
+    if x_menos_porc > 0.2 and s_menos_porc < 0.4:
+        interpretaciones.append("[INTERFERENCIAS GENERALIZADAS S-% < 0.4]")
+
+    if fq_menos in ["alto", "muy alto"]:
+        interpretaciones.append("[EVALUAR HOMOGENEIDAD DE F-]")
 
     # Paso 4: Respuestas populares
-    populares = estados_simples.get("Populares", None)
-    populares_txt = ""
+    populares = estados_simples.get("Populares", "Indefinido")
     if populares == "muy alto":
-        populares_txt = "[PENDIENTE]"
-    if populares == "alto":
-        populares_txt = "[PENDIENTE]"
-    if populares == "normal":
-        populares_txt = f"Por otro lado, se observa que su capacidad para responder convencionalmente según lo socialmente esperado es adecuada, por lo que {persona} será capaz de comportarse de manera adaptativa en situaciones socialmente obvias."
-    if populares == "bajo":
-        populares_txt = f"Por otro lado, se observa que tiene una menor capacidad para ajustar su conducta según lo socialmente esperado, por lo que {persona} podría enfrentar dificultades de adaptación incluso en situaciones sociales obvias.."
-    if populares == "muy bajo":
-        populares_txt = "[PENDIENTE]"
+        interpretaciones.append(
+            f"Su capacidad para identificar aquellos elementos más habituales del campo estimular está muy aumentada, por lo que su adecuación perceptiva está muy por encima de la comparación normativa. Esto indica que {persona} es es mucho más consciente de las exigencias sociales y tiende a acumular malestar si no cumple con las expectativas del entorno.")
 
-    interpretaciones.append(populares_txt)
+    if populares == "alto":
+        interpretaciones.append(
+            f"Su capacidad para identificar aquellos elementos más habituales del campo estimular está levemente aumentada, por lo que su adecuación perceptiva es mayor a la comparación normativa. Esto indica que {persona} es más sensible a las exigencias sociales y tiende a proteger mucho su identidad percibida.")
+
+    if populares == "normal":
+        interpretaciones.append(
+            f"Su capacidad para identificar aquellos elementos más habituales del campo estimular es adecuada, por lo que su adecuación perceptiva se ajusta a la comparación normativa. Esto indica que {persona} tiene una adecuada sensibilidad a las exigencias sociales y es capaz de actuar de manera convencional en escenarios socialmente obvios.")
+
+    if populares == "bajo":
+        interpretaciones.append(
+            f"Su capacidad para identificar aquellos elementos más habituales del campo estimular está levemente disminuida, por lo que su adecuación perceptiva en relación con la comparación normativa es menor. Esto indica que {persona} tiene una sensibilidad menor a las exigencias sociales que lo llevan a actuar de manera menos convencional en escenarios socialmente obvios.")
+
+    if populares == "muy bajo":
+        interpretaciones.append(
+            f"Su capacidad para identificar aquellos elementos más habituales del campo estimular está muy disminuida, por lo que su adecuación perceptiva en relación con la comparación normativa se encuentra muy por debajo. Esto indica que {persona} tiene una muy baja sensibilidad a las exigencias sociales [EVALUAR DESAJUSTES] [lo que indica un pobre contacto con la realidad] por lo que no será capaz de comportarse convencionalmente incluso en situaciones sociales obvias.")
 
     # Paso 5: Frecuencia de FQ+
-    fq_plus = variables.get("FQx+", None)
+    fq_plus = variables.get("FQx+", 0)
     if fq_plus > 4:
         interpretaciones.append(
-            f"Si bien {persona} muestra una buena capacidad perceptiva y alta motivación, muestra una tendencia marcada a la búsqueda de exactitud, indicando rasgos perfeccionistas u obsesivos.")
+            f"Si bien {persona} muestra una buena capacidad perceptiva y alta motivación, muestra una tendencia marcada a la búsqueda de exactitud, [indicando rasgos perfeccionistas u obsesivos].")
 
     # Paso 6: X+% y Xu%
-    x_plus = estados_simples.get("X+%", None)
-    x_plus_txt = ""
-    if x_plus == "muy alto":
-        x_plus_txt = "[PENDIENTE]"
-    if x_plus == "alto":
-        x_plus_txt = "[PENDIENTE]"
-    if x_plus == "normal":
-        x_plus_txt = "[PENDIENTE]"
-    if x_plus == "bajo":
-        x_plus_txt = "[PENDIENTE]"
-    if x_plus == "muy bajo":
-        x_plus_txt = "[PENDIENTE]"
+    x_plus_porc = variables.get("X+%", 0)
+    xu = estados_simples.get("Xu%", 0)
+    if x_plus_porc < 0.78 and xu in ["alto", "muy alto"]:
+        interpretaciones.append(f"Las posibles dificultades de {persona} se evidencian en su excesivo autocentramiento, lo que {articulo} lleva a sesgar sus percepciones según sus propias necesidades y a aferrarse a su punto de vista, rechazando perspectivas más convencionales de la realidad o la posibilidad de adoptar otros enfoques. Esto podría volverse problemático, especialmente si el entorno le exige ajustarse a las expectativas sociales, en cuyo caso las probabilidades de conflicto aumentan.")
 
-    interpretaciones.append(x_plus_txt)
-
-    xu_porc = estados_simples.get("Xu%", None)
-    xu_txt = ""
-    if xu_porc == "muy alto":
-        xu_txt = f"Además, se observa que {persona} tiene una marcada tendencia a añadir sesgos a sus percepciones en función de sus necesidades y a manifestar un alto autocentramiento que le dificulta ver las cosas como lo hacen los demás. Esto implica que puede llegar a presentar dificultades de comunicación y conflictos con su entorno si se le somete a altas expectativas sociales."
-    if xu_porc == "alto":
-        xu_txt = f"Por otro lado, se observa que {persona} tiene una tendencia a sesgar sus percepciones en función de sus propias necesidades, lo cual le permite expresar su individualidad y creatividad, pero puede llegar a generar conflictos de comunicación si las demandas de convencionalidad del entorno son muy altas."
-    if xu_porc == "normal":
-        xu_txt = "[PENDIENTE]"
-    if xu_porc == "bajo":
-        xu_txt = "[PENDIENTE]"
-    if xu_porc == "muy bajo":
-        xu_txt = "[PENDIENTE]"
-
-    interpretaciones.append(xu_txt)
+    if x_plus_porc < 0.78 and xu == "normal":
+        interpretaciones.append("[PENDIENTE Xu% NORMAL]")
 
     return interpretaciones

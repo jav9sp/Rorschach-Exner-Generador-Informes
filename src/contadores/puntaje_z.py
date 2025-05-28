@@ -36,7 +36,7 @@ def calcular_zscores(columna_z):
 
     return {
         "Zf": zf,
-        "Zsum": zsum,
+        "Zsum": float(zsum),
         "Zest": zest,
         "Zd": round(zd, 2) if zd is not None else None,
         "Estilo Cognitivo": estilo_cognitivo

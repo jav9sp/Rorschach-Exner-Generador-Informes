@@ -1,12 +1,12 @@
 
-def calcular_afectos(df, dic_variables):
+def calcular_afectos(df, variables):
     r_total = len(df)
 
     # FC : CF+C+Cn
-    fc = dic_variables.get("FC", 0)
-    cf = dic_variables.get("CF", 0)
-    c = dic_variables.get("C", 0)
-    cn = dic_variables.get("Cn", 0)
+    fc = variables.get("FC", 0)
+    cf = variables.get("CF", 0)
+    c = variables.get("C", 0)
+    cn = variables.get("Cn", 0)
     total_c = fc + cf + c + cn
     fc_vs_otros = f"{fc}:{cf + c + cn}"
 
@@ -14,9 +14,9 @@ def calcular_afectos(df, dic_variables):
     c_pura = sum(1 for d in df["Det"].dropna() if d.strip() == "C")
 
     # SumC':SumPonC
-    sumcprima = dic_variables.get(
-        "FC'", 0) + dic_variables.get("C'F", 0) + dic_variables.get("C'", 0)
-    sumponc = calcular_sumponc(dic_variables)["SumPonC"]
+    sumcprima = variables.get(
+        "FC'", 0) + variables.get("C'F", 0) + variables.get("C'", 0)
+    sumponc = calcular_sumponc(variables)["SumPonC"]
     sumc_vs_sumponc = f"{sumcprima}:{sumponc}"
 
     # Afr
@@ -35,16 +35,16 @@ def calcular_afectos(df, dic_variables):
     complj_vs_r = f"{respuestas_complejas}:{r_total}"
 
     # CP
-    cp = dic_variables.get("CP", 0)
+    cp = variables.get("CP", 0)
 
-    # 🔄 CompljsColSH y CompljsSH
+    # CompljsColSH y CompljsSH
     col_det = {"FC", "CF", "C"}
     sh_det = {"FC'", "C'F", "C'", "FY", "YF",
               "Y", "FV", "VF", "V", "FT", "TF", "T"}
 
     complj_colsh = 0
     complj_sh = 0
-    sum_sh = 0
+    sum_sh = sum(variables.get(det, 0) for det in sh_det)
 
     for det in df["Det"].dropna():
         partes = [p.strip() for p in str(det).split('.')]
@@ -55,8 +55,6 @@ def calcular_afectos(df, dic_variables):
         tiene_sombreado = any(p in sh_det for p in partes)
         total_sombreado = sum(1 for p in partes if p in sh_det)
 
-        if tiene_sombreado:
-            sum_sh += 1
         if tiene_color and tiene_sombreado:
             complj_colsh += 1
         if total_sombreado >= 2:

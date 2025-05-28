@@ -1,4 +1,3 @@
-
 def calcular_codigos_especiales(variables):
     """
     Calcula SumBrut6 (Raw Sum6) y WSum6 (SumPon6) a partir de las frecuencias de CC.EE.

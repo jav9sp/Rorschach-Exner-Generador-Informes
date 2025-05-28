@@ -17,7 +17,7 @@ def interpretar_preliminares(variables, estados_simples):
     s_con = variables.get("SCON TXT")
     interpretaciones.append(s_con)
 
-    interpretaciones.append(evaluar_factores(variables, estados_simples))
+    interpretaciones.extend(evaluar_factores(variables, estados_simples))
 
     interpretaciones.append(
         f"A continuación, se describen las principales conclusiones sobre el funcionamiento {persona} en cada una de sus áreas.")

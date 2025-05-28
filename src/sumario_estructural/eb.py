@@ -37,11 +37,11 @@ def calcular_eb_ea_ebper(det_dict, lambda_val):
          or (ea > 10 and abs(m - sumponc) >= 2.5))
     )
 
-    ebper = round(m / sumponc, 2) if estilo_definido and sumponc != 0 else None
+    ebper = round(m / sumponc, 2) if estilo_definido and sumponc != 0 else 0
 
     return {
         "EB": eb,
         "EA": ea,
-        "EBPer": ebper if ebper is not None else "-",
+        "EBPer": ebper,
         "EA-es": ea - det_dict.get("es", 0)
     }

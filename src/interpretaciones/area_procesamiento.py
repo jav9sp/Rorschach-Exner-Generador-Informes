@@ -1,6 +1,7 @@
 
-def interpretar_procesamiento(data_respuestas, variables, estados_simples):
+def interpretar_procesamiento(df, variables, estados_simples):
     """
+    INCOMPLETO
     Interpreta el área de procesamiento de la información a partir de indicadores formales.
     """
 
@@ -9,52 +10,66 @@ def interpretar_procesamiento(data_respuestas, variables, estados_simples):
     persona = "el evaluado" if variables["Genero"] == "M" else "la evaluada"
 
     # Evaluar L, EB, OBS y HVI
-    # ? Todo esto debería estar en un primer párrafo
     lambda_ = estados_simples.get("Lambda", "Indefinido")
-    lambda_txt = ""
     if lambda_ == "muy alto":
-        lambda_txt = f"Se observa que {persona} muestra una marcada tendencia a usar sus recursos de manera económica y sobre simplificar sus percepciones al analizar al campo estimular, evitando las ambigüedades y la incorporación de información emocional, lo que lo lleva a perder parte importante de la información del medio."
+        interpretaciones.append(f"{persona.capitalize()} muestra una marcada tendencia a usar sus recursos de manera económica y sobre simplificar sus percepciones al analizar al campo estimular, evitando las ambigüedades y la incorporación de información emocional, lo que lo lleva a perder parte importante de la información del medio.")
+
     if lambda_ == "alto":
-        pass
+        interpretaciones.append("[PENDIENTE LAMBDA ALTO]")
+
     if lambda_ == "normal":
-        lambda_txt = f"Se observa que {persona} es capaz de usar sus recursos cognitivos de manera equilibrada, siendo capaz de simplificar sus percepciones en justa medida, incorporando la información emocional y realizando un registro eficiente de la información del entorno."
+        interpretaciones.append(f"{persona.capitalize()} es capaz de usar sus recursos cognitivos de manera equilibrada, siendo capaz de simplificar sus percepciones en justa medida, incorporando la información emocional y realizando un registro eficiente de la información del entorno.")
+
     if lambda_ == "bajo":
-        pass
+        interpretaciones.append("[PENDIENTE LAMBDA BAJO]")
+
     if lambda_ == "muy bajo":
-        pass
+        interpretaciones.append("[PENDIENTE LAMBDA MUY BAJO]")
 
-    interpretaciones.append(lambda_txt)
+    obs = variables.get("OBS", "Indefinido")
 
-    # Paso 1: Zf – Actividad exploratoria
-    # ? En este párrafo podría estar Zf, Acercamiento y Patrones
+    if obs == 'Positivo':
+        interpretaciones.append("[PENDIENTE OBS POSITIVO]")
+
+    hvi = variables.get("HVI", "Indefinido")
+
+    if hvi == 'Positivo':
+        interpretaciones.append("[PENDIENTE HVI POSITIVO]")
+
+    # Paso 1: Zf – Frecuencia de Actividad Organizativa
     zf = estados_simples.get("Zf", None)
-    zf_txt = ""
-    if zf == "muy alto":
-        pass
-    if zf == "alto":
-        pass
-    if zf == "normal":
-        pass
-    if zf == "bajo":
-        pass
-    if zf == "muy bajo":
-        zf_txt = "Su motivación por organizar la información del entorno y relacionarla de manera significativa se encuentra muy por debajo de lo esperado, por lo que realiza un nulo esfuerzo creativo en sus elaboraciones."
 
-    interpretaciones.append(zf_txt)
+    if zf == "muy alto":
+        interpretaciones.append(
+            f"Su iniciativa y motivación en la tarea de organizar los estímulos del entorno y relacionarlos de manera significativa está muy por encima de lo esperado, por lo que {persona} realiza un esfuerzo mayor en su procesamiento de información [que puede estar relacionado a características perfeccionistas o un alto rendimiento].")
+
+    if zf == "alto":
+        interpretaciones.append(
+            f"Su iniciativa y motivación en la tarea de organizar los estímulos del entorno y relacionarlos de manera significativa se encuentra por encima de lo esperado, por lo que {persona} realiza un alto esfuerzo cognitivo en el procesamiento de información.")
+
+    if zf == "normal":
+        interpretaciones.append(
+            f"Su iniciativa y motivación en la tarea de organizar los estímulos del entorno y relacionarlos de manera significativa se encuentra dentro de lo esperado, por lo que {persona} realiza un adecuado esfuerzo cognitivo en el procesamiento de información.")
+
+    if zf == "bajo":
+        interpretaciones.append(
+            f"Su iniciativa y motivación en la tarea de organizar los estímulos del entorno y relacionarlos de manera significativa es menor a lo esperado, por lo que {persona} realiza un menor esfuerzo cognitivo en el procesamiento de la información.")
+
+    if zf == "muy bajo":
+        interpretaciones.append(
+            "Su iniciativa y motivación en la tarea de organizar la información del entorno y relacionarla de manera significativa se encuentra muy por debajo de lo esperado, lo cual [apunta a la presencia de limitaciones cognitivas o un potencial intelectual inhibido por factores emocionales].")
 
     # Paso 2: W:D:Dd – Estilo de acercamiento
     w = estados_simples.get("W", "Indefinido")
     d = estados_simples.get("D", "Indefinido")
     dd = estados_simples.get("Dd", "Indefinido")
 
-    acercamiento = interpretar_acercamiento(w, d, dd, persona)
-    interpretaciones.append(acercamiento)
+    interpretaciones.append(interpretar_acercamiento(w, d, dd, persona))
 
     # Paso 3: Secuencia de enfoque
-    secuencia = evaluar_secuencia_localizacion(data_respuestas, persona)
-    interpretaciones.append(secuencia)
+    interpretaciones.append(evaluar_secuencia_localizacion(df, persona))
 
-    # Paso 4: W:M – Comparación entre producción visual y producción ideativa
+    # Paso 4: W:M – Ambición Intelectual
     tipo_vivencial = variables.get("Tipo Vivencial", "Indefinido")
     sum_w = variables.get("W", 0)
     sum_m = variables.get("M", 0)
@@ -65,20 +80,26 @@ def interpretar_procesamiento(data_respuestas, variables, estados_simples):
 
     # Paso 5: Zd – Estilo de esfuerzo cognitivo
     zd = variables.get("Estilo Cognitivo", "Indefinido")
-    zd_txt = ""
-    if zd == "Normal":
-        zd_txt = "Su estilo de procesamiento es normal, lo que le permite discriminar la información importante de la accesoria al examinar el campo estimular, facilitando su resolución de problemas y toma de decisiones."
-    if zd == "Hipoincorporador":
-        zd_txt = "Su estilo cognitivo es hipoincorporador, por lo que no espera a integrar toda la información importante a la hora de resolver problemas, reflejando impulsividad y negligencia en su proceso de toma de decisiones."
-    if zd == "Hiperincorporador":
-        zd_txt = "Su estilo cognitivo es hiperincorporador, por lo que tiende a querer recopilar toda la información del entorno sin discriminar aquella importante de la accesoria, llevándole a abrumarse con información y paralizarse al resolver problemas o tomar decisiones."
 
-    interpretaciones.append(zd_txt)
+    if zd == "Normal":
+        interpretaciones.append(
+            "Su estilo de procesamiento es normal, lo que le permite discriminar la información importante de la accesoria al examinar el campo estimular, facilitando su resolución de problemas y toma de decisiones.")
+
+    if zd == "Hipoincorporador":
+        interpretaciones.append(
+            "Su estilo cognitivo es hipoincorporador, por lo que no espera a integrar toda la información importante a la hora de resolver problemas, reflejando impulsividad y negligencia en su proceso de toma de decisiones.")
+
+    if zd == "Hiperincorporador":
+        interpretaciones.append("Su estilo cognitivo es hiperincorporador, por lo que tiende a querer recopilar toda la información del entorno sin discriminar aquella importante de la accesoria, llevándole a abrumarse con información y paralizarse al resolver problemas o tomar decisiones.")
 
     # Paso 6: PSV
     psv = variables.get("PSV", 0)
 
+    if psv:
+        interpretaciones.append("[PENDIENTE PSV PRESENTE]")
+
     # Paso 7: DQ – Calidad del procesamiento
+    # ? Acá debería existir un análisis entre DQ y FQ
     dq_plus = estados_simples.get("DQ+", "Indefinido")
     dq_o = estados_simples.get("DQo", "Indefinido")
     dq_v = estados_simples.get("DQv", "Indefinido")
@@ -166,7 +187,7 @@ def evaluar_secuencia_localizacion(df_protocolo, persona):
 
     # Interpretación según cantidad de láminas con patrón definido
     if conteo_laminas_con_patron >= 2:
-        interpretacion = f"Se observa que {persona} cuenta con patrones de registro consistentes y metódicos, por lo que es capaz de recopilar la información del entonro de manera ordenada y predecible, lo cual constituye un indicador importante de eficacia en esta tarea."
+        interpretacion = f"Se observa que {persona} cuenta con patrones de registro consistentes y metódicos, por lo que es capaz de recopilar la información del entorno de manera ordenada y predecible, lo cual constituye un indicador importante de eficacia en esta tarea."
     else:
         interpretacion = f"Se observa que {persona} no cuenta con patrones de registro consistentes y metódicos, por lo que no es capaz de organizar sus recursos de manera eficaz para recoger la información del entorno."
 
@@ -178,42 +199,26 @@ def interpretar_acercamiento(w, d, dd, persona):
 
     if estilo_normal:
         return (
-            f"El estilo de acercamiento a los estímulos de {persona} es equilibrado, por lo que es capaz de trabajar de manera teórica y captar la totalidad del campo estimular, así como trabajar de manera más práctica identificando los elementos más obvios e importantes."
+            f"Su estilo de acercamiento a los estímulos es equilibrado, por lo que {persona} es capaz de trabajar de manera teórica y captar la totalidad del campo estimular, así como trabajar de manera más práctica identificando los elementos más obvios e importantes."
         )
 
     frases = []
 
-    if w in ["alto", "muy alto"]:
+    if w in ["alto", "muy alto"] and d in ["bajo", "muy bajo"]:
         frases.append(
-            f"{persona} tiende a un enfoque global, mostrando preferencia por captar la totalidad del campo estimular. "
-            "Esto puede indicar una tendencia a la teorización o al pensamiento abstracto."
-        )
-    elif w in ["bajo", "muy bajo"]:
-        frases.append(
-            "Se observa una baja frecuencia en respuestas globales, lo cual puede reflejar dificultades para integrar "
-            "la información en un todo coherente o una visión más fragmentada de la realidad."
-        )
+            f"Su estilo de acercamiento a los estímulos es principalmente teórico y global, por lo que {persona} tiende a invertir mayor energía en la resolución de problemas, disminuyendo su capacidad de trabajo práctico y la identificación de los detalles más obvios del campo estimular.")
 
-    if d in ["alto", "muy alto"]:
+    if w in ["bajo", "muy bajo"] and d in ["alto", "muy alto"]:
         frases.append(
-            f"{persona} muestra una marcada atención a los detalles convencionales y esperables, lo cual puede favorecer "
-            "la practicidad, el foco en lo esencial y una orientación hacia lo funcional."
-        )
-    elif d in ["bajo", "muy bajo"]:
-        frases.append(
-            "La baja proporción de respuestas comunes indica una posible desconexión con los aspectos más esperables o "
-            "relevantes del entorno, lo que podría afectar la eficacia adaptativa."
+            f"Su estilo de acercamiento a los estímulos es principalmente práctico y económico, por lo que {persona} tiende a identificar rápidamente los elementos más obvios del campo estimular e invertir menor energía en la resolución de problemas, disminuyendo su capacidad de trabajo teórico."
         )
 
     if dd in ["alto", "muy alto"]:
         frases.append(
-            "Hay una tendencia a enfocarse en detalles inusuales, lo cual puede reflejar originalidad o creatividad, "
-            "aunque también cierta tendencia a la excentricidad o a desviarse de lo convencional."
+            "Además, se observa una marcada tendencia a realizar un acercamiento más personal a los estímulos, centrando su atención en elementos que pasan desapercibidos para la mayoría, lo que refleja una pérdida de la visión de conjunto y de eficacia práctica en la resolución de problemas. [Además, esto se relaciona con rasgos perfeccionistas o una actitud huidiza ante la complejidad y una mayor inseguridad en la toma de decisiones.]"
         )
-    elif dd in ["bajo", "muy bajo"]:
-        frases.append(
-            "Una baja presencia de detalles inusuales sugiere una preferencia por lo convencional y menor tendencia "
-            "a explorar aspectos marginales o poco evidentes del entorno."
-        )
+
+    if not frases:
+        return "[FALTA INTERPRETACIÓN W:D:Dd]"
 
     return " ".join(frases)
