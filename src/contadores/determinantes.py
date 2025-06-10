@@ -50,5 +50,12 @@ def contar_determinantes(columna_det, columna_fq):
             else:
                 conteo_mq["MQsin"] += 1
 
+    categorías = 0
+    for det in conteo_general.values():
+        if det and det > 0:
+            categorías += 1
+
+    intereses = {"Intereses": categorías}
+
     conteo_general.update(conteo_mq)
-    return conteo_general, conteo_subindices
+    return conteo_general, conteo_subindices, intereses

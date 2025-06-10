@@ -51,6 +51,11 @@ def interpretar_interpersonal(variables, estados_simples):
 
     # Paso 4: Análisis de los contenidos humanos
     todo_h = estados_simples.get("TodoH", "Indefinido")
+    cont_h = variables.get("H")
+    cont_hd = variables.get("Hd")
+    cont_h_img = variables.get("(H)")
+    cont_hd_img = variables.get("(Hd)")
+
     todo_h_txt = ""
     if todo_h == "muy alto":
         todo_h_txt = ""
@@ -62,6 +67,8 @@ def interpretar_interpersonal(variables, estados_simples):
         todo_h_txt = "Su interés en el componente humano se encuentra por debajo de lo esperado"
     if todo_h == "muy bajo":
         todo_h_txt = ""
+
+    predominio_h = predominio_cont_h(persona, variables, estados_simples)
 
     # ? Añadir matices sobre el tipo de contenido H predominante
     parrafo_cont_h = f"{todo_h_txt}, En cuanto a cómo construye las conceptualizaciones de los demás, "
@@ -118,3 +125,34 @@ def interpretar_interpersonal(variables, estados_simples):
     interpretaciones.append("[VERIFICAR CUALI DE FM O M CON PAR]")
 
     return interpretaciones
+
+
+def predominio_cont_h(persona, variables, estados_simples):
+
+    cont_h = variables.get("H", 0),
+    cont_hd = variables.get("Hd", 0),
+    cont_h_img = variables.get("(H)", 0),
+    cont_hd_img = variables.get("(Hd)", 0)
+
+    # estado_cont_h = estados_simples.get("H", "Indefinido")
+    estado_cont_hd = estados_simples.get("Hd", "Indefinido")
+    estado_cont_h_img = estados_simples.get("(H)", "Indefinido")
+    estado_cont_hd_img = estados_simples.get("(Hd)", "Indefinido")
+
+    cont_h_txt = ""
+    if cont_h > cont_h_img + cont_hd + cont_hd_img:
+        cont_h_txt = "Se muestra capaz de construir las conceptualizaciones sobre los demás integrando percepciones completas, basadas en datos e interacciones reales con su entorno según lo esperado."
+
+    if cont_h < cont_h_img + cont_hd + cont_hd_img:
+        cont_h_txt = "Muestra dificultades en la construcción de las conceptualizaciones sobre los demás, "
+
+    if estado_cont_hd in ["alto", "muy alto"]:
+        pass
+
+    if estado_cont_h_img in ["alto", "muy alto"]:
+        pass
+
+    if estado_cont_hd_img in ["alto", "muy alto"]:
+        pass
+
+    return f"{persona}"

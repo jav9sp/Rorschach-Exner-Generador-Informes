@@ -124,7 +124,7 @@ def calcular_ambicion_intelectual(tipo_vivencial, sum_w, sum_m):
         proporciones_esperadas = {
             "Introversivo": 1.5,
             "Ambigual": 2,
-            "Extratensivo": 3,
+            "Extroversivo": 3,
             "Indefinido": 2
         }
 

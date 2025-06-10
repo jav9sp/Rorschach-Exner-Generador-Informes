@@ -5,7 +5,7 @@ def interpretar_autopercepcion(variables, estados_simples):
 
     interpretaciones = []
     persona = "el evaluado" if variables["Genero"] == "M" else "la evaluada"
-    vocal = "o" if persona == "el evaluado" else "a"
+    vocal = "o" if variables["Genero"] == "M" else "a"
 
     # Paso 1: OBS y HVl
     obs = variables.get("OBS")  # Negativo o Positivo
@@ -17,6 +17,7 @@ def interpretar_autopercepcion(variables, estados_simples):
         interpretaciones.append("[PENDIENTE HVI POSITIVO]")
 
     # Paso 2: Índice de egocentrismo y reflejos
+    # ? Incluir presencia o ausencia de reflejos
     ego = estados_simples.get("Ego", "Indefinido")
     if ego == "muy alto":
         interpretaciones.append(
@@ -28,7 +29,7 @@ def interpretar_autopercepcion(variables, estados_simples):
 
     if ego == "normal":
         interpretaciones.append(
-            "Su índice de egocentrismo se encuentra dentro de los parámetros esperados, por lo que la preocupación que el evaluado tiene sobre sí mismo es adecuada, pudiendo prestar atención a sus necesidades personales sin descuidar su entorno.")
+            f"Su índice de egocentrismo se encuentra dentro de los parámetros esperados, por lo que la preocupación que {persona} tiene sobre sí mism{vocal} es adecuada, pudiendo prestar atención a sus necesidades personales sin descuidar su entorno.")
 
     if ego == "bajo":
         interpretaciones.append("[PENDIENTE EGO BAJO]")
@@ -36,6 +37,7 @@ def interpretar_autopercepcion(variables, estados_simples):
     if ego == "muy bajo":
         interpretaciones.append("[PENDIENTE EGO MUY BAJO]")
 
+    # ? Presencia de autovaloración negativa y baja autoestima
     sum_v = variables.get("SumV", 0)
     mor = variables.get("MOR", 0)
 
@@ -130,10 +132,10 @@ def interpretar_autopercepcion(variables, estados_simples):
         interpretaciones.append("[PENDIENTE GHR>PHR]")
 
     # Paso 8: Búsqueda de proyecciones en:
-    # 8a: Respuestas con FQ
+    # 8a: Respuestas con FQ-
     # 8b: Respuestas MOR
     # 8c: Respuestas de movimientos
-    # 8d: Sobreelaboraciones verbales
+    # 8d: Sobre elaboraciones verbales
 
     interpretaciones.append(
         "[VERIFICAR PROYECCIONES EN FQ-, MOR, M Y VERBALES]")

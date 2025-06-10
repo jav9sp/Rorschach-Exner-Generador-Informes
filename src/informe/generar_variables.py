@@ -2,7 +2,7 @@
 from typing import Literal
 
 from contadores.determinantes import contar_determinantes
-from contadores.puntaje_z import calcular_zscores
+from contadores.puntaje_z import calcular_zscore
 from contadores.calidad_evolutiva import contar_calidad_dq
 from contadores.calidad_formal import contar_calidad_fq
 from contadores.localizacion import contar_localizaciones
@@ -40,10 +40,11 @@ def generar_variables(df_respuestas, edad, genero: Genero):
     variables.update(conteo_dq)
 
     # Determinantes y subíndices
-    resumen_determinantes, resumen_subindices = contar_determinantes(
+    resumen_determinantes, resumen_subindices, categorias = contar_determinantes(
         df_respuestas['Det'], df_respuestas['FQ'])
     variables.update(resumen_determinantes)
     variables.update(resumen_subindices)
+    variables.update(categorias)
 
     # Calidad Formal, Contenidos, Fenómenos Especiales
     resumen_calidad_fq = contar_calidad_fq(df_respuestas['FQ'])
@@ -52,7 +53,7 @@ def generar_variables(df_respuestas, edad, genero: Genero):
     variables.update(contar_valores_coma(df_respuestas['CC.EE.']))
 
     # Puntaje Z
-    variables.update(calcular_zscores(df_respuestas['Z']))
+    variables.update(calcular_zscore(df_respuestas['Lam'], df_respuestas['Z']))
 
     # Códigos especiales
     variables.update(calcular_codigos_especiales(variables))

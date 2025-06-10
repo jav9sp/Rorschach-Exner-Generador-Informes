@@ -15,17 +15,38 @@ with open(json_path, encoding="utf-8") as f:
     }
 
 
-def calcular_zscores(columna_z):
+def calcular_zscore(columna_lam, columna_z):
     """
     Devuelve un diccionario con Zf, Zsum, Zest (esperado), Zd y estilo cognitivo.
     """
-    columna_z = columna_z.dropna()
-    zf = len(columna_z)
-    zsum = columna_z.sum()
+
+    puntajes_por_lamina_y_codigo = {
+        'I': {'zw': 1.0, 'za': 4.0, 'zd': 6.0, 'zs': 3.5},
+        'II': {'zw': 4.5, 'za': 3.0, 'zd': 5.5, 'zs': 4.5},
+        'III': {'zw': 5.5, 'za': 3.0, 'zd': 4.0, 'zs': 4.5},
+        'IV': {'zw': 2.0, 'za': 4.0, 'zd': 3.5, 'zs': 5.0},
+        'V': {'zw': 1.0, 'za': 2.5, 'zd': 5.0, 'zs': 4.0},
+        'VI': {'zw': 2.5, 'za': 2.5, 'zd': 6.0, 'zs': 6.5},
+        'VII': {'zw': 2.5, 'za': 1.0, 'zd': 3.0, 'zs': 4.0},
+        'VIII': {'zw': 4.5, 'za': 3.0, 'zd': 3.0, 'zs': 4.0},
+        'IX': {'zw': 5.5, 'za': 2.5, 'zd': 4.5, 'zs': 5.0},
+        'X': {'zw': 5.5, 'za': 4.0, 'zd': 4.5, 'zs': 6.0}
+    }
+
+    zvalores = []
+
+    for lamina, codigo in zip(columna_lam, columna_z):
+        z = puntajes_por_lamina_y_codigo.get(
+            lamina.upper(), {}).get(str(codigo).lower())
+        if z is not None:
+            zvalores.append(z)
+
+    zf = len(zvalores)
+    zsum = sum(zvalores)
     zest = zest_data.get(zf, None)
     zd = zsum - zest if zest is not None else 0
 
-    if zd is None:
+    if zest is None:
         estilo_cognitivo = "No interpretable"
     elif zd > 3.5:
         estilo_cognitivo = "Hiperincorporador"
@@ -36,8 +57,8 @@ def calcular_zscores(columna_z):
 
     return {
         "Zf": zf,
-        "Zsum": float(zsum),
+        "Zsum": round(zsum, 2),
         "Zest": zest,
-        "Zd": round(zd, 2) if zd is not None else None,
+        "Zd": round(zd, 2) if zest is not None else None,
         "Estilo Cognitivo": estilo_cognitivo
     }

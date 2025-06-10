@@ -101,12 +101,11 @@ def evaluar_scon(variables, edad):
     if condiciones <= 8:
         texto = (
             "La constelación de suicidio marca negativo, lo que permite descartar la presencia de conductas autolesivas en el corto mediano plazo. "
-            f"Pese a ello, se observa {numeros[condiciones]} indicadores presentes, incluyendo {unir_interpretaciones(interpretaciones)}, "
-            "indicadores que sugieren una vulnerabilidad significativa."
+            f"Pese a ello, se observa {numeros[condiciones]} indicadores presentes, incluyendo {unir_interpretaciones(interpretaciones)}."
         )
 
     if condiciones >= 8:
-        texto = f"La constelación de suicidio marca positivo, por lo que existe un peligro inminente de que {persona} incurra en conductas autolesivas en el corto mediano plazo, razón por la cual requiere atención urgente."
+        texto = f"La constelación de suicidio marca positivo, por lo que existe un peligro inminente de que {persona} incurra en conductas autolesivas en el corto mediano plazo, lo cual requiere un abordaje urgente."
 
     resultado = "Positivo" if condiciones >= 8 else "Negativo"
 

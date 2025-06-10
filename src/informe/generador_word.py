@@ -75,4 +75,5 @@ def generar_informe(nombre_archivo, secciones):
             agregar_tabla_dataframe(doc, contenido)
 
     doc.save(nombre_archivo)
-    print("\n¡Informe preliminar generado correctamente!\n")
+    print(f"\nInforme: {nombre_archivo}")
+    print("¡Informe preliminar generado correctamente!\n")

@@ -79,7 +79,7 @@ def evaluar_depi(variables):
         condiciones += 1
         factor_cognitivo += 1
         interpretaciones.append(
-            "marcada presencia de negativismo en la la ideación")
+            "marcada presencia de negativismo en la ideación")
     elif variables.get("Intelec", 0) > 3:
         condiciones += 1
         factor_cognitivo += 1

@@ -26,7 +26,7 @@ def interpretar_afectos(variables, estados_simples):
     # Paso 2: Lambda, EB Extroversivo, EBPer
     lambda_estado = estados_simples.get("Lambda", None)
     tipo_vivencial = variables.get("Tipo Vivencial", None)
-    ebper = variables.get("EBPer", "-")
+    ebper = variables.get("EBPer", 0)
 
     if tipo_vivencial == "Indefinido":
         interpretaciones.append(
@@ -44,10 +44,10 @@ def interpretar_afectos(variables, estados_simples):
         interpretaciones.append(
             f"Su tipo vivencial es ambigual, por lo que su respuesta base a los estímulos es internamente inconsistente, pudiendo responder de manera racional o emocional a los mismos estímulos de manera impredecible. Esto hace que {persona} tienda a cometer más errores en la toma de decisiones y sea particularmente vulnerable ante las situaciones de estrés.")
 
-    if lambda_estado in ["alto", "muy alto"] and tipo_vivencial == "Extratensivo":
+    if lambda_estado in ["alto", "muy alto"] and tipo_vivencial == "Extroversivo":
         interpretaciones.append("[PENDIENTE L ALTO Y EXTRATENSIVO]")
 
-    if ebper != '-':
+    if ebper > 0:
         interpretaciones.append("[PENDIENTE EBPer PRESENTE]")
 
     # Paso 3: Análisis del lado derecho de la eb
@@ -75,13 +75,17 @@ def interpretar_afectos(variables, estados_simples):
     # Paso 4: SumC': SumPonC
     tot_c_prima = variables.get("SumC'", 0)
     sum_pon_c = variables.get("SumPonC", 0)
+    ego = estados_simples.get("Ego", "Indefinido")
+    cop = variables.get("COP", 0)
 
     if tot_c_prima >= sum_pon_c:
-        extern_txt = f"Por otro lado, {persona} muestra una tendencia a internalizar sus emociones en lugar de externalizarlas. Esto resulta en una acumulación de tensión interna que puede derivar hacia el cuerpo y dar paso a trastornos psicosomáticos al mediano largo plazo."
+        interpretaciones.append(f"{persona.capitalize()} muestra una tendencia a internalizar sus emociones en lugar de externalizarlas, lo que indica dificultades para iniciar procesos de descarga afectiva de manera deliberada. Esto resulta en una acumulación de tensión interna que puede derivar hacia el cuerpo y dar paso a trastornos psicosomáticos al mediano largo plazo.")
     else:
-        extern_txt = f"Por otro lado, {persona} muestra capacidad para externalizar sus emociones según lo esperado, lo que le permite realizar intercambios emocionales y disminuir la acumulación de tensión interna."
+        interpretaciones.append(
+            f"{persona.capitalize()} muestra capacidad para externalizar sus emociones según lo esperado, lo que le permite realizar intercambios emocionales y disminuir la acumulación de tensión interna.")
 
-    interpretaciones.append(extern_txt)
+    if tot_c_prima >= sum_pon_c and tipo_vivencial == "Introversivo" and ego in ["alto", "muy alto"] and cop < 2:
+        interpretaciones.append("[ALTA PREDICTIVIDAD DE PSICOSOMÁTICOS]")
 
     # Paso 5: Proporción afectiva (Afr)
     afr = estados_simples.get("Afr", "Indefinido")
